@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TiendaOnline - Contacto</title>
+    <link rel="stylesheet" href="Practica.css">
+</head>
+<body>
+
+    <header>
+        <h1>TiendaOnline</h1>
+        <p>Tu tienda de tecnologia favorita</p>
+    </header>
+
+    <nav>
+        <a href="index.html">Inicio</a>
+        <a href="productos.html">Productos</a>
+        <a href="carrito.html">Carrito</a>
+        <a href="contacto.html">Contacto</a>
+    </nav>
+
+    <main>
+
+        <h2>Contacto</h2>
+        <p>Si tienes alguna pregunta o problema con tu pedido, rellena el formulario y te respondemos lo antes posible.</p>
+
+        <form>
+            <h2>Enviar mensaje</h2>
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Tu nombre">
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="ejemplo@email.com">
+
+            <label for="asunto">Asunto:</label>
+            <select id="asunto" name="asunto">
+                <option value="">Selecciona un asunto</option>
+                <option value="pedido">Pregunta sobre un pedido</option>
+                <option value="devolucion">Devolucion</option>
+                <option value="producto">Informacion de producto</option>
+                <option value="otro">Otro</option>
+            </select>
+        </form>
+
+        <!-- Tabla de horarios de atencion -->
+        <h2>Horario de atencion</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Dia</th>
+                    <th>Horario</th>
+                    <th>Canal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Lunes - Viernes</td>
+                    <td>9:00 - 18:00</td>
+                    <td>Email, Telefono</td>
+                </tr>
+                <tr>
+                    <td>Sabado</td>
+                    <td>10:00 - 14:00</td>
+                    <td>Email</td>
+                </tr>
+                <tr>
+                    <td>Domingo</td>
+                    <td>Cerrado</td>
+                    <td>-</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="bienvenida">
+            <h2>Otros medios de contacto</h2>
+            <p><strong>Telefono:</strong> 900 123 456 (gratuito)</p>
+            <p><strong>Email:</strong> soporte@tiendaonline.com</p>
+            <p><strong>Direccion:</strong> Calle Mayor 10, 28001 Madrid</p>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2024 TiendaOnline |
+            <a href="index.html">Inicio</a> |
+            <a href="productos.html">Productos</a>
+        </p>
+    </footer>
+
+</body>
+</html>

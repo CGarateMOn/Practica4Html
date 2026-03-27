@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TiendaOnline - Carrito</title>
+    <link rel="stylesheet" href="Practica.css">
+</head>
+<body>
+
+    <header>
+        <h1>TiendaOnline</h1>
+        <p>Tu tienda de tecnologia favorita</p>
+    </header>
+
+    <nav>
+        <a href="index.html">Inicio</a>
+        <a href="productos.html">Productos</a>
+        <a href="carrito.html">Carrito</a>
+        <a href="contacto.html">Contacto</a>
+    </nav>
+
+    <main>
+
+        <h2>Mi carrito de compra</h2>
+
+        <div class="aviso">
+            Tienes 3 productos en tu carrito.
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Precio unitario</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Raton inalambrico</td>
+                    <td>19,99 €</td>
+                    <td>1</td>
+                    <td>19,99 €</td>
+                </tr>
+                <tr>
+                    <td>Teclado mecanico</td>
+                    <td>59,99 €</td>
+                    <td>1</td>
+                    <td>59,99 €</td>
+                </tr>
+                <tr>
+                    <td>Auriculares Bluetooth</td>
+                    <td>34,99 €</td>
+                    <td>2</td>
+                    <td>69,98 €</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p class="total">Total: 149,96 €</p>
+
+        <form>
+            <h2>Datos de envio</h2>
+
+            <label for="nombre">Nombre completo:</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Tu nombre">
+
+            <label for="email">Correo electronico:</label>
+            <input type="email" id="email" name="email" placeholder="ejemplo@email.com">
+
+            <label for="direccion">Direccion:</label>
+            <input type="text" id="direccion" name="direccion" placeholder="Calle, numero, piso">
+
+            <label for="ciudad">Ciudad:</label>
+            <input type="text" id="ciudad" name="ciudad" placeholder="Tu ciudad">
+
+            <label for="cp">Codigo postal:</label>
+            <input type="number" id="cp" name="cp" placeholder="28001">
+
+            <label for="pais">Pais:</label>
+            <select id="pais" name="pais">
+                <option value="es">España</option>
+                <option value="fr">Francia</option>
+                <option value="de">Alemania</option>
+                <option value="pt">Portugal</option>
+            </select>
+
+            <h2>Metodo de pago</h2>
+
+            <label>
+                <input type="radio" name="pago" value="tarjeta" checked> Tarjeta de credito
+            </label>
+            <br>
+            <label>
+                <input type="radio" name="pago" value="paypal"> PayPal
+            </label>
+            <br>
+            <label>
+                <input type="radio" name="pago" value="transferencia"> Transferencia bancaria
+            </label>
+            <br><br>
+
+            <label for="acepto">
+                <input type="checkbox" id="acepto" name="acepto">
+                Acepto los terminos y condiciones
+            </label>
+            <br><br>
+
+            <button type="submit">Finalizar compra</button>
+            <a href="productos.html" class="btn" style="background-color: #999; margin-left: 10px;">Seguir comprando</a>
+        </form>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2024 TiendaOnline |
+            <a href="contacto.html">Contacto</a> |
+            <a href="index.html">Inicio</a>
+        </p>
+    </footer>
+
+</body>
+</html>
