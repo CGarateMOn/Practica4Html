@@ -24,9 +24,7 @@
 
         <h2>Mi carrito de compra</h2>
 
-        <div class="aviso">
-            Tienes 3 productos en tu carrito.
-        </div>
+        <div class="aviso" id="aviso">Cargando carrito...</div>
 
         <table>
             <thead>
@@ -35,31 +33,15 @@
                     <th>Precio unitario</th>
                     <th>Cantidad</th>
                     <th>Subtotal</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>Raton inalambrico</td>
-                    <td>19,99 €</td>
-                    <td>1</td>
-                    <td>19,99 €</td>
-                </tr>
-                <tr>
-                    <td>Teclado mecanico</td>
-                    <td>59,99 €</td>
-                    <td>1</td>
-                    <td>59,99 €</td>
-                </tr>
-                <tr>
-                    <td>Auriculares Bluetooth</td>
-                    <td>34,99 €</td>
-                    <td>2</td>
-                    <td>69,98 €</td>
-                </tr>
+            <tbody id="lineas-carrito">
+               
             </tbody>
         </table>
 
-        <p class="total">Total: 149,96 €</p>
+        <p class="total" id="total">Total: 0 €</p>
 
         <form>
             <h2>Datos de envio</h2>
@@ -120,6 +102,70 @@
             <a href="index.html">Inicio</a>
         </p>
     </footer>
+
+    <script>
+        const BASE_URL = "http://localhost:8080";
+
+        document.addEventListener("DOMContentLoaded", async function() {
+
+            const credenciales = sessionStorage.getItem("credenciales");
+
+            if (!credenciales) {
+                document.getElementById("aviso").textContent = "Debes iniciar sesión para ver tu carrito.";
+                return;
+            }
+
+ 
+            const resCarrito = await fetch(`${BASE_URL}/api/Carrito?credenciales=${credenciales}`);
+            const carrito = await resCarrito.json();
+
+            document.getElementById("total").textContent = `Total: ${carrito.precio.toFixed(2)} €`;
+
+   
+            const resLineas = await fetch(`${BASE_URL}/api/Linea?credenciales=${credenciales}`);
+            const lineas = await resLineas.json();
+
+            document.getElementById("aviso").textContent = `Tienes ${lineas.length} productos en tu carrito.`;
+
+         
+            const tbody = document.getElementById("lineas-carrito");
+            tbody.innerHTML = lineas.map(function(linea) {
+                return `
+                    <tr>
+                        <td>Artículo ${linea.idArticulo}</td>
+                        <td>${linea.precioUnitario.toFixed(2)} €</td>
+                        <td>${linea.numeroUnidades}</td>
+                        <td>${linea.costeLinea.toFixed(2)} €</td>
+                        <td>
+                            <button class="btn-borrar" data-id="${linea.idLinea}" data-coste="${linea.costeLinea}">
+                                Eliminar
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join("");
+
+
+            document.querySelectorAll(".btn-borrar").forEach(function(boton) {
+                boton.addEventListener("click", async function() {
+
+                    const idLinea = boton.dataset.id;
+
+                    await fetch(`${BASE_URL}/api/Linea/Delete?credenciales=${credenciales}&idLinea=${idLinea}`, {
+                        method: "DELETE"
+                    });
+
+           
+                    boton.closest("tr").remove();
+
+   
+                    const resActualizado = await fetch(`${BASE_URL}/api/Carrito?credenciales=${credenciales}`);
+                    const carritoActualizado = await resActualizado.json();
+                    document.getElementById("total").textContent = `Total: ${carritoActualizado.precio.toFixed(2)} €`;
+                });
+            });
+        });
+    </script>
 
 </body>
 </html>

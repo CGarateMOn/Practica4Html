@@ -27,32 +27,32 @@
 
         <div class="productos-grid">
 
-            <div class="producto-card">
+            <div class="producto-card" data-id="1" data-precio="19.99" data-nombre="Raton inalambrico">
                 <img src="https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=200&h=150&fit=crop" alt="Raton">
                 <h3>Raton inalambrico</h3>
                 <p>19,99 €</p>
-                <a href="carrito.html" class="btn">Añadir al carrito</a>
+                <button class="btn añadir-carrito">Añadir al carrito</button>
             </div>
 
-            <div class="producto-card">
+            <div class="producto-card" data-id="2" data-precio="59.99" data-nombre="Teclado mecanico">
                 <img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=200&h=150&fit=crop" alt="Teclado">
                 <h3>Teclado mecanico</h3>
                 <p>59,99 €</p>
-                <a href="carrito.html" class="btn">Añadir al carrito</a>
+                <button class="btn añadir-carrito">Añadir al carrito</button>
             </div>
 
-            <div class="producto-card">
+            <div class="producto-card" data-id="3" data-precio="34.99" data-nombre="Auriculares Bluetooth">
                 <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&h=150&fit=crop" alt="Auriculares">
                 <h3>Auriculares Bluetooth</h3>
                 <p>34,99 €</p>
-                <a href="carrito.html" class="btn">Añadir al carrito</a>
+                <button class="btn añadir-carrito">Añadir al carrito</button>
             </div>
 
-            <div class="producto-card">
+            <div class="producto-card" data-id="4" data-precio="7.99" data-nombre="Cable USB-C">
                 <img src="https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=200&h=150&fit=crop" alt="Cable">
                 <h3>Cable USB-C</h3>
                 <p>7,99 €</p>
-                <a href="carrito.html" class="btn">Añadir al carrito</a>
+                <button class="btn añadir-carrito">Añadir al carrito</button>
             </div>
 
         </div>
@@ -101,6 +101,7 @@
             </tbody>
         </table>
 
+    <p id="mensaje" style="font-weight:bold;"></p>
     </main>
 
     <footer>
@@ -109,6 +110,56 @@
             <a href="index.html">Inicio</a>
         </p>
     </footer>
+
+    <script>
+        const BASE_URL="http://localhost:8080";
+
+        const botones=document.querySelectorAll(".añadir-carrito");
+        const mensaje=document.getElementById("mensaje");
+
+        botones.forEach(function(boton){
+
+            boton.addEventListener("click", async function(){
+
+                const credenciales=sessionStorage.getItem("credenciales");
+                if(!credenciales){
+                    mensaje.textContent="Debes iniciar sesión primero.";
+                    mensaje.style.color="red";
+                    return;
+                }
+
+                const card=boton.closest(".producto-card");
+                const idArticulo=card.dataset.id;
+                const precio=parseFloat(card.dataset.precio);
+
+                const resCarrito=await fetch(`${BASE_URL}/api/Carrito?credenciales=${credenciales}`);
+                const carrito = await resCarrito.json();
+                
+                const body = {
+                    carrito: { idCarrito: Number(carrito.idCarrito) },  // force number
+                    idArticulo: Number(idArticulo),                      // force number
+                    precioUnitario: precio,
+                    numeroUnidades: 1,
+                    costeLinea: precio
+                };
+                console.log("Enviando body:", JSON.stringify(body));
+
+                const res = await fetch(
+                    `${BASE_URL}/api/Linea?credenciales=${credenciales}&idCarrito=${Number(carrito.idCarrito)}&idArticulo=${Number(idArticulo)}&precioUnitario=${precio}&numeroUnidades=1`,
+                    { method: "POST" }
+                );
+
+                if (res.ok) {
+                    mensaje.textContent = "Producto añadido al carrito ✓";
+                    mensaje.style.color = "green";
+                } else {
+                    mensaje.textContent = "Error al añadir el producto.";
+                    mensaje.style.color = "red";
+                }
+
+            });
+        });
+    </script>
 
 </body>
 </html>

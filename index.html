@@ -11,6 +11,10 @@
     <header>
         <h1>TiendaOnline</h1>
         <p>Tu tienda de tecnologia favorita</p>
+        <p id="saludo-usuario" style="display:none;">
+            Sesión iniciada como: <strong id="nombre-usuario"></strong>
+            <a href="#" id="btn-logout">Cerrar sesión</a>
+        </p>
     </header>
 
     <nav>
@@ -21,6 +25,17 @@
     </nav>
 
     <main>
+
+        <div id="seccion-login">
+            <h2>Iniciar sesión</h2>
+            <form id="form-login">
+                <label for="input-credenciales">Credenciales:</label>
+                <input type="text" id="input-credenciales" placeholder="Tu contraseña">
+                <br><br>
+                <button type="submit">Entrar</button>
+                <p id="error-login" style="color:red; font-weight:bold;"></p>
+            </form>
+        </div>
 
         <div class="bienvenida">
             <h2>Bienvenido a TiendaOnline</h2>
@@ -36,7 +51,6 @@
             <a href="productos.html" class="btn">Ver productos</a>
         </div>
 
-        <!-- Imagen de la tienda -->
         <img
             src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=900&h=250&fit=crop"
             alt="Productos tecnologicos"
@@ -45,7 +59,6 @@
 
         <h2>Ofertas de la semana</h2>
 
-        <!-- Tabla de ofertas -->
         <table>
             <thead>
                 <tr>
@@ -83,8 +96,6 @@
             </tbody>
         </table>
 
-        
-
     </main>
 
     <footer>
@@ -93,6 +104,49 @@
             <a href="productos.html">Productos</a>
         </p>
     </footer>
+
+    <script>
+        const BASE_URL = "http://localhost:8080";
+
+        const credenciales = sessionStorage.getItem("credenciales");
+
+       
+        if (credenciales) {
+            document.getElementById("seccion-login").style.display = "none";
+            document.getElementById("nombre-usuario").textContent = credenciales;
+            document.getElementById("saludo-usuario").style.display = "block";
+        }
+
+       
+        document.getElementById("btn-logout").addEventListener("click", function() {
+            sessionStorage.removeItem("credenciales");
+            location.reload();
+        });
+
+        
+        document.getElementById("form-login").addEventListener("submit", async function(evento) {
+
+            evento.preventDefault();
+
+            const valor = document.getElementById("input-credenciales").value.trim();
+
+            if (valor === "") {
+                document.getElementById("error-login").textContent = "Introduce tus credenciales.";
+                return;
+            }
+
+
+            const res = await fetch(`${BASE_URL}/api/Carrito?credenciales=${valor}`);
+
+            if (res.ok) {
+
+                sessionStorage.setItem("credenciales", valor);
+                location.reload();
+            } else {
+                document.getElementById("error-login").textContent = "Credenciales incorrectas.";
+            }
+        });
+    </script>
 
 </body>
 </html>
